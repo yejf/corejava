@@ -1,0 +1,36 @@
+作业：
+在昨天扑克牌的枚举基础上，写一个卡片类，如下：
+public class Card {
+
+	//属性
+	private Kind kind; //花色
+	private Rank rank; //点数
+	
+	//构造 + getter/setter
+	...
+}
+
+再写一个扑克类， 扑克由多张 Card 组成，如下：
+public class Poker {
+	//属性
+	private static final List<Card> cards = new ArrayList<>();
+	//使用静态代码块去填充Card对象。
+	
+	//..
+	//方法
+	public List<Card> getPoker() { 
+		return new ArrayList<>(cards);
+	}
+	//洗牌
+	public void shuffle(List<Card> poker){ ... }
+	
+	//玩牌, person个人，每人发cards张，直接打印出来
+	//要求打印出来的牌是排好序的。
+	public void play(List<Card> poker, int person, int cards) {
+	
+	}
+	//为play方法服务的
+	private List<Card> give(List<Card> poker, int cards){ }
+}
+
+//测试类

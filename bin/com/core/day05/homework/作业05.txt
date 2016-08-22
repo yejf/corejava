@@ -1,0 +1,60 @@
+作业一、
+设计一个计算机[Computer]类，含如下属性
+	品牌[String]
+	单价[double]
+	显示器[另一个自定义 类型 Screen]
+含如下方法：
+	构造器
+	getter/setter方法
+	业务方法：
+	public void show(){
+		//显示此计算机器的相关属性，如果有显示器属性
+		不为空的话，则显示出显示器相关的属性。
+		否则，就显示无显示器信息
+	}
+
+设计一个显示器[Screen]类，含如下属性
+	尺寸[int]，只能是奇数，并且最小不低于17，最大
+		不超过99
+	品牌[String]
+	类型[String]，只能是 LCD或LED
+含如下方法：
+	构造器
+	getter/setter方法
+	无业务方法
+==
+写另一个类，来做测试使用。
+
+
+作业二、
+利用数组来设计一个支持自动扩展的类型，这个类型就叫
+可变数组，它含如下的功能：
+	添加元素
+	删除元素
+	按下标查询元素
+	遍历所有元素
+	修改元素
+	得到元素个数
+
+public class VarArray{
+	//属性
+	...
+	...
+	
+	//方法: 【元素都是整型】
+	添加元素
+	public void add(int element){ ... }
+	删除元素
+	public void remove(int element) { ... }
+	按下标查询元素
+	public int get(int index){ ... }
+	遍历所有元素
+	public void showAllElement(){ ... }
+	修改元素
+	public void update(int index, int newElement){ ...}
+	得到元素个数
+	public int length(){ ... }
+}
+
+	
+

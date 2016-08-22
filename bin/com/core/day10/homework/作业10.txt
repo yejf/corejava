@@ -1,0 +1,30 @@
+作业一、
+我们需要设计一组类来操作图书类[Book和BookInfo]数据，包含
+添加图书、查询图书、删除图书、统计数量、清空等操作。
+
+为了更好地体现OO的思想，设计一个图书业务接口如下：
+
+public interface IBookService {
+	
+	void addBook(Book b); //添加图书
+	
+	void deleteByIsbn(String ibsn); //
+	
+	void deleteByAuthor(String author); //
+	
+	void updateBook(Book b); //附加题
+	
+	int size(); //统计书的数量
+	
+	void clear(); //清空所有图书
+	
+	Book selectByIsbn(String isbn);
+	
+	Book[] getAllBooks(); //获取所有图书
+}
+
+//请写一个业务接口的实现类，完成以上所有的业务方法。
+
+并提供测试。
+
+

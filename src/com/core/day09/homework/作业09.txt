@@ -1,0 +1,26 @@
+作业一、
+设计玩家接口如下：
+public interface Player {
+
+	String JIAODAO = "剪刀";
+	String SHITOU = "石头";
+	String BU = "布";
+
+	//方法,只能返回以上三个常量之一
+	String play();
+}
+
+再编写另一个类,提供两个玩家的比赛方法
+public class PlayPlatform {
+
+	public static void pk(Player p1, Player p2){
+		//...需要自己实现两个玩家的输赢
+		// 会用到 回调
+	}
+}
+
+你需要写Player接口的两种以上不同的实现。
+
+最后，要写测试类。
+
+

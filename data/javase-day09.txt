@@ -1,0 +1,404 @@
+static 修饰符
+A. 方法， 表示静态方法。
+	静态方法不能直接调用非静态成员。
+	非静态方法可以直接调用静态成员。
+
+B. 属性，表示 静态属性，也叫 类变量，
+	它是全局性的，被此类的所有实例/对象 所共享的。
+
+C. 代码块， 静态代码块，这是一个特殊代码执行单元，它只在类加载时
+	被执行1次。
+语法：
+static {
+	//....
+}
+	由于静态代码块的执行时机是发生在类加载时，并且只执行1次，所以，
+	可以利用静态代码块来做一些资源加载类的工作，比如：连接池、只读
+	文件的数据等。
+
+--
+理解了静态属性、代码块之后，再来看看对象创建的过程。
+
+类加载时，做如下事情：
+	为静态属性申请空间【永久区】
+	给静态属性赋默认值
+	调用静态代码块【如果有的话】
+
+创建对象时，总是按如下3步递归地先创建父类对象
+	为非静态属性申请堆空间
+	给非静态属性赋值默认值
+	调用普通代码块【如果有的话】
+	调用构造方法
+
+D. 内部类， 表示静态内部类
+语法：
+public class 类名 {
+	//属性
+
+	//方法
+
+	//静态内部类
+	public static class 内部类名 {
+		//属性
+
+		//方法
+	}
+}
+
+=====================
+static 应用
+当我们需要做工具类时，可以利用static来开发静态方法，就像
+java.lang.Math 类一样。
+
+==
+设计模式 [Design Pattern]
+	所谓的设计模式，就是在特定场景下根据一定的规则设计出来的编程
+	"套路".
+
+设计模式之简单工厂模式
+使用场景：
+	希望用统一的方式来获取某一类的对象。
+解决方案：
+	在工厂类中，提供公开、静态的方法来返回目标类的实例。
+Code:
+//
+public class XXXFactory {
+	//
+	public static XXX getInstance() {
+		//...
+		//...
+	}
+	public static XXX getInstance(参数) {
+		//...
+	}
+	public static XXX anotherName() {
+		//...
+	}
+}
+
+设计模式之单例模式[Singleton]
+应用场景：
+	在业务系统中，希望某个类的实例/对象 至始至终只是唯一的。
+解决方案：
+	A). 构造方法要私有化.
+	B). 提供一个私有、静态的本类类型的属性
+	C). 提供公开、静态 方法来访问唯一的本类类型的属性
+//Code:
+public class 类名 {
+	//其它属性
+	...
+	//private static 类名 instance = new 类名();
+	private static 类名 instance;
+	//构造方法私有化
+	private 类名() { //... }
+
+	//其它方法...
+
+	// 懒汉式
+	public synchronized static 类名 getInstance() { 
+		if(instance == null){
+			instance = new 类名();
+		}
+		return instance; 
+	}
+
+}
+
+根据本类的对象初始化的时机，可以把单例分为
+A). 饿汉式
+	 在申明时直接初始化了。
+
+B). 懒汉式
+	在真正调用获取对象的方法时，进行判断后再来初始化。
+
+=========
+final 修饰符
+A). 局部变量， 表示 常量
+如:
+	final int RED = 1;
+
+B). 修饰属性， 表示 常量属性
+如：
+public class 类名 {
+	public final int WEST = 1; //
+	public static final int EAST = 2; // 这个更好
+	...
+}
+
+C). 修饰类， 表示这个类是最终类，不能被继承。
+如：
+	public final class 类名 {  //表示此类是最终类
+		//....
+	}
+
+在java.lang包中，有很多final类，如：
+	String, System, StringBuilder, Integer, Long, ....
+
+所以，final和abstract 修饰符不能同时修饰一个类型或方法，
+因为它们天生就矛盾。
+
+D). 修饰方法， 表示这个方法是最终方法，不能被  重写[override]
+如：
+public class 类名 {
+	
+	public final void ma() {  //此方法子类不可以重写
+		//...
+	}
+	...
+}
+
+--
+有关java中的三种变量的生命周期
+1. 局部变量， Local Variable
+	它的生命周期只存在于定义它的那一对大括号中。
+
+2. 实例变量，就是属性， Instance Variable
+	它的生命周期就是对象的生命周期。
+
+3. 类变量，就是 静态属性， Class Variable
+	它的生命周期就是 类的生命周期，它从类加载之后，就一直存在于JVM中。
+
+如：
+public class 类名 {
+
+	private int i; // 实例变量
+
+	private static int index; // 类变量
+
+	public void ma(int loop) { //参数也是局部变量
+		int i = 100; //局部变量
+		this.i = 1000; //给实例变量赋值。
+	}
+}
+====
+OO的小结
+类和对象
+对象和引用
+方法和属性
+构造方法
+this和super
+对象创建的过程
+抽象
+封装
+封装的2种策略
+...
+继承
+	方法的重写
+	extends关键字
+多态
+	编译时类型
+	运行时类型
+
+抽象类和接口
+	abstract
+	interface
+	implements
+	....
+设计模式
+	简单工厂
+	单例模式
+	
+	模板模式
+	回调模式
+
+----------------
+设计模式之模板模式 [abstract类的应用]
+应用场景：
+	在业务系统中，某个业务流程的执行顺序是固定的，但是，有实现的
+	细节上有所差异，这个差异由具体的子类来决定。
+解决之道：
+	A). 提供一个公开、最终的模板方法，定义在父类中能够完成的业务，
+	对于需要子类才能完成的业务，通过抽象方法来定义。
+
+//Code
+public abstract class 模板类 {
+	
+	//模板方法
+	public final 返回类型 模板方法(参数) {
+		//1.第一步，干什么 ....
+		//.. 也许下面的步骤是在父类中完成不了的，由子类去完成
+		method_1();
+		//...走呀走...
+
+		//又有在父类中完成不了的，还是由子类去完成
+		method_2();
+		//.. . .
+	}
+
+	//定义需要由子类重写的抽象方法
+	public abatract 返回类型 method_1();
+
+	public abatract 返回类型 method_2();
+}	
+
+案例：
+
+public abstract class 小品 {
+	//属性...
+	private String[] actors;
+
+	public final void play() { //模板方法
+		//1. 报幕
+		System.out.println("接下来有请: ");
+		for(String name : actors) {
+			System.out.printf("%s,", name);
+		}
+		System.out.println("著名演员表演小品");
+		//2. 叙事
+		xuShi();
+		//3. 煽情
+		shanQing();
+		//4. 结束
+		System.out.println(":)谢谢大家");
+	}
+
+	public abstract 返回类型 xuShi();
+	public abstract 返回类型 shanQing();
+}
+//子类
+public class 卖拐 extends 小品 {
+	private String 拐;
+
+	public abstract 返回类型 xuShi() {
+		//...
+	}
+	public abstract 返回类型 shanQing() {
+		//...
+	}
+}
+----
+设计模式之回调模式 [Callback]
+
+当一个方法的参数是抽象类或接口时，此方法内部就一定会发生回调。
+
+假设 A 要调用 B 的一个方法，需要传入S为参数， 然后， 在B的方法中，
+会调用 S 的方法, 这个过程就叫 回调。
+
+如：
+
+public interface 交通工具 {
+	void move();
+}
+...
+public class Tools {
+	
+	public void goHome(交通工具 a) {
+		//1. 打下班卡
+		....
+		//2. 交通工具回家
+		a.move(); //交通工具移动的方法
+		//3. 到家
+		...
+	}
+}
+
+public class Car implements 交通工具 {
+	public void move() { ... }
+}
+//调用者
+public class Main {
+	public static void main(String[] args) {
+		Tools t = new Tools();
+		交通工具 a = new Car();
+
+		t.goHome(a);
+	}
+}
+===
+案例：
+利用回调模式来模拟用户单击"按钮"时的表现。
+
+public interface Action {
+	void doIt(String 事件源);
+}
+
+public class Button {
+	...
+	public void click(Action a) {
+		// 我被 单击了, 
+		//那我要做什么响应呢，这应该是调用我的人决定 的。
+		//我可以通过 回调 Action 的 doIt 方法来遵守 调用者的决定
+		a.doIt("按钮");
+		//..
+		...
+	}
+}
+
+//调用者
+
+==============================
+JAVASE三个学习阶段
+JAVA基础语法
+	掌握java编程的基础和流程控制
+面向对象编程
+	掌握OO的思想 【思想主导】
+JAVA实用编程 
+	如何使用现有的API来开发应用
+含：
+	Object类和包装类
+	日期相关的类型
+	字符串相关的类型
+	数字相关的类型
+	异常和内部类
+	集合框架
+	IO流和NIO
+	多线程
+	泛型
+	枚举
+	反射
+	注解
+	网络编程 【了解】
+--
+Object类和包装类
+Object类中所有方法在任何对象中都是可调用的，所以，有必要掌握
+它里面的方法。
+	toString 方法
+		把一个对象转换成字符串表现形式。
+		此方法的默认实现就是把对象的内存地址以16进制字符串方式返回。
+		所以，在你自定义的类中，应该 重写此方法，以返回你想要得到
+		字符串。
+
+	equals 方法
+		用来判断两个对象在"逻辑"上是否相等。 默认是比内存地址。
+
+	hashcode 方法
+		用来获取对象的哈希码值，它的作用是将来此类对象存储在哈希表
+		数据结构中用来决定它的位置的。
+
+	hashcode和equals方法是一起的，它们存在如下关系：
+	A). equals方法返回true时，此2个对象的hashcode值一定是一样的。
+	B). equals方法返回false时，尽最大的努力保证此2对象的hashcode值不一样。
+
+	getClass 方法
+		用来获取对象的运行时类型。
+
+	clone 方法
+		克隆当前对象，默认实现是 浅拷贝
+		要实现一个对象的克隆，需要这个对象的类型实现一个标记接口
+		java.lang.Clonable, 否则会出现 CloneNotSupportedException
+
+	finalize 方法
+		是用来在JVM的GC线程[垃圾回收线程]在回收此对象之前会回调
+		这个方法。
+	...
+
+--
+案例：
+请写一个图书类以及图书明细类
+public class Book {
+	private String isbn;
+	private String name;
+	private String author;
+	private double price;
+	//
+	private BookInfo info;
+}
+public class BookInfo {
+	private String publisher;
+	private Date publish_date;
+	private int pages;
+	private String image_url;
+	//..
+}
+
+hello,你好吗？ 
